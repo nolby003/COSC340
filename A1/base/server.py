@@ -19,14 +19,14 @@ import openpyxl  # dependency
 import pandas as pd
 import os
 
-messages_file = 'messages.xlsx'
-sessions_file = 'sessions.xlsx'
+messages_file = '../messages.xlsx'
+sessions_file = '../sessions.xlsx'
 
 
 class Server:
 
     def __init__(self, port):
-        self.host = '127.0.0.1'
+        self.host = ''
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.bind((self.host, self.port))
