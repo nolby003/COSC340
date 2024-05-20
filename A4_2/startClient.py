@@ -1,10 +1,11 @@
 import socket
 
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.backends import default_backend
+# from cryptography.hazmat.primitives import serialization
+# from cryptography.hazmat.primitives.asymmetric import padding
+# from cryptography.hazmat.primitives import hashes
+# from cryptography.hazmat.backends import default_backend
 
+from cryptography.fernet import Fernet
 
 class Client(object):
 
@@ -12,27 +13,30 @@ class Client(object):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect(('127.0.0.1', 65432))
         self.sock.settimeout(1)
+        self.key = ''
+        self.cipher_suite = Fernet(self.key)
 
-    # Load the server's public key
-    with open("public_key.pem", "rb") as key_file:
-        public_key = serialization.load_pem_public_key(
-            key_file.read(),
-            backend=default_backend()
-        )
+    # # Load the server's public key
+    # with open("public_key.pem", "rb") as key_file:
+    #     public_key = serialization.load_pem_public_key(
+    #         key_file.read(),
+    #         backend=default_backend()
+    #     )
 
-    def encrypt_message(message, public_key):
-        return public_key.encrypt(
-            message.encode(),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
+    # def encrypt_message(message, public_key):
+    #     return public_key.encrypt(
+    #         message.encode(),
+    #         padding.OAEP(
+    #             mgf=padding.MGF1(algorithm=hashes.SHA256()),
+    #             algorithm=hashes.SHA256(),
+    #             label=None
+    #         )
+    #     )
 
     def send(self, data):
-        # data = data.encode('utf-8')
-        data = client.encrypt_message(data, self.public_key)
+        data = data.encode('utf-8')
+        # data = client.encrypt_message(data, self.public_key)
+        data = self.cipher_suite.encrypt(data)
         self.sock.send(data)
 
     def recv(self):
@@ -40,19 +44,19 @@ class Client(object):
         print(f'Server: {data}')
         return data
 
-    @staticmethod
-    def encrypt_message(message, public_key_pem):
-        public_key = serialization.load_pem_public_key(public_key_pem)
-        # Encrypt message
-        encrypted = public_key.encrypt(
-            message.encode(),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-        return encrypted
+    # @staticmethod
+    # def encrypt_message(message, public_key_pem):
+    #     public_key = serialization.load_pem_public_key(public_key_pem)
+    #     # Encrypt message
+    #     encrypted = public_key.encrypt(
+    #         message.encode(),
+    #         padding.OAEP(
+    #             mgf=padding.MGF1(algorithm=hashes.SHA256()),
+    #             algorithm=hashes.SHA256(),
+    #             label=None
+    #         )
+    #     )
+    #     return encrypted
 
 
     # def close(self):

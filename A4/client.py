@@ -3,11 +3,13 @@ File name: client.py
 Created on Thu Mar 7 2024:
 @author: <Benjamin Nolan>
 Description: Client for sending and receiving messages over a socket
-    UNE - COSC340 - A2
+    UNE - COSC340 - A4
 
 Usage: python client.py host port
 
 Please run requirements.py to ensure the above library requirements are installed.
+
+Modyifying from A2 to allow multiple client connections and keep server alive.
 
 """
 import sys

@@ -3,7 +3,7 @@ File name: server.py
 Created on Thu Mar 7 2024:
 @author: <Benjamin Nolan>
 Description: Server for sending and receiving messages over a socket
-    UNE - COSC340 - A2
+    UNE - COSC340 - A4
 
 library requirements:
     xlsxwrtiter
@@ -13,6 +13,8 @@ library requirements:
 Usage: python server.py port
 
 Please run requirements.py to ensure the above library requirements are installed.
+
+Modyifying from A2 to allow multiple client connections and keep server alive.
 
 """
 import sys
